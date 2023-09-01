@@ -13,7 +13,7 @@ class ConnectionStateStore:
 
         possible_routes_that_change_connection_state = {
             'sendUserId': self.__store_connection_user_id,
-            '$disconnect': self.__close_connection,
+            '$disconnect': self.__delete_connection,
         }
         
         possible_routes_that_change_connection_state[route]()
@@ -22,14 +22,16 @@ class ConnectionStateStore:
     def __store_connection_user_id(self):
         user_id = json.loads(self.event['body'])['user_id']
 
-        user_key = f'user:{user_id}:connection'
-        
+        user_key = self.__get_user_key(user_id)
         self.repository.set_item(user_key, self.connection_id)
         self.repository.set_item(self.connection_key, user_id)
 
 
-    def __close_connection(self):
+    def __delete_connection(self):
         user_id = self.repository.get_item(self.connection_key)
 
         self.repository.delete_item(self.connection_key)
-        self.repository.delete_item(f'user:{user_id}:connection')
+        self.repository.delete_item(self.__get_user_key(user_id))
+
+    def __get_user_key(self, user_id): 
+        return f'user:{user_id}:connection'

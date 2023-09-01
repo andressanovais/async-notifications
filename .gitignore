@@ -152,5 +152,7 @@ cython_debug/
 #.idea/
 
 # Terraform
-**/.terraform/*
+*/.terraform/*
 .terraform.lock.hcl
+
+lambda_zip/
