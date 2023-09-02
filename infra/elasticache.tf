@@ -27,7 +27,7 @@ resource "aws_elasticache_subnet_group" "cache-subnets" {
 }
   
 resource "aws_secretsmanager_secret" "redis_secret" {
-   name = "async-notifications/redis-password"
+   name = var.elasticache_secret_name
 }
 
 resource "aws_secretsmanager_secret_version" "sversion" {

@@ -18,6 +18,10 @@ resource "aws_lambda_function" "function" {
     security_group_ids = [var.vpc_security_group_id]
   }
 
+  environment {
+    variables = var.environment_variables
+  }
+
   depends_on = [
     aws_cloudwatch_log_group.log_group,
     aws_iam_role_policy_attachment.lambda_role_policy
@@ -42,7 +46,6 @@ resource "aws_iam_role" "lambda_role" {
         "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
-      "Sid": ""
     }
   ]
 }

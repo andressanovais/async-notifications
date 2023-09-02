@@ -39,3 +39,33 @@ resource "aws_vpc_security_group_egress_rule" "vpc_sg_egress" {
   to_port     = 65535
   ip_protocol = "tcp"
 }
+
+
+resource "aws_iam_role" "scheduler_role" {
+  name = "${var.lambda_name}_policy"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "scheduler.amazonaws.com"
+      },
+      "Effect": "Allow",
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "scheduler_policy" {
+  name   = "invoke_send_notifications_policy"
+  policy = file(var.policy_path)
+}
+
+resource "aws_iam_role_policy_attachment" "scheduler_role_policy" {
+  role       = aws_iam_role.scheduler_role.name
+  policy_arn = aws_iam_policy.scheduler_policy.arn
+}

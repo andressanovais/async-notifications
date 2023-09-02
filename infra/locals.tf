@@ -1,10 +1,11 @@
 locals {
   lambda_integrations = {
     "$disconnect" = {
-      lambda_arn = module.lambda_connection_state_store.arn
+      lambda_arn = module.lambda_connection_storage.arn
     },
     "sendUserId" = {
-      lambda_arn = module.lambda_connection_state_store.arn
+      lambda_arn = module.lambda_connection_storage.arn
     }
   }
 }
+

@@ -21,3 +21,16 @@ variable "dynamo_rcu" {
 variable "dynamo_wcu" {
   type = string
 }
+
+variable "elasticache_host" {
+  type = string
+}
+
+variable "elasticache_port" {
+  type = string
+  default = 7236
+}
+
+variable "elasticache_secret_name" {
+  type = string
+}

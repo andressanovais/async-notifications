@@ -20,3 +20,8 @@ variable "vpc_security_group_id" {
   type    = string
   default = null
 }
+
+variable "environment_variables" {
+  type        = map(string)
+  description = "A map that defines environment variables for the Lambda Function."
+}
