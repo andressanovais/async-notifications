@@ -20,17 +20,17 @@ resource "aws_elasticache_subnet_group" "cache-subnets" {
 }
 */
 
- resource "random_password" "password" {
+resource "random_password" "password" {
   length           = 16
   special          = true
   override_special = "_%@"
 }
-  
+
 resource "aws_secretsmanager_secret" "redis_secret" {
-   name = var.elasticache_secret_name
+  name = var.elasticache_secret_name
 }
 
 resource "aws_secretsmanager_secret_version" "sversion" {
-  secret_id = aws_secretsmanager_secret.redis_password.id
+  secret_id     = aws_secretsmanager_secret.redis_secret.id
   secret_string = random_password.password.result
 }

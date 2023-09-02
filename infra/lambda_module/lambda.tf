@@ -34,32 +34,23 @@ resource "aws_cloudwatch_log_group" "log_group" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.lambda_name}_policy"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-    }
-  ]
-}
-EOF
+  name = "${var.lambda_name}-role"
+  assume_role_policy = file("./iam_policies/lambda_assume_role.json")
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name   = "${var.lambda_name}_policy"
+  name   = "${var.lambda_name}-policy"
   policy = file(var.policy_path)
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_role_policy" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_base_role_policy" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = var.lambda_base_policy_arn
 }
 
 output "arn" {

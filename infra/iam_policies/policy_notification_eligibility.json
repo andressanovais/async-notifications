@@ -2,25 +2,6 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "arn:aws:logs::*:*",
-            "Effect": "Allow"
-        },
-        {
-            "Sid": "LambdaVpcPermissions",
-            "Action": [
-                "ec2:CreateNetworkInterface",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DeleteNetworkInterface"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
-        },
-        {
             "Sid": "ReadOnlyUserTermsTable",
             "Effect": "Allow",
             "Action": [
@@ -47,7 +28,7 @@
         {
             "Effect": "Allow",
             "Action": "iam:PassRole",
-            "Resource": "arn:aws:iam::*:role/notification-scheduler-role",
+            "Resource": "arn:aws:iam::*:role/notification_scheduler_role",
             "Condition": {
                 "StringLike": {
                     "iam:PassedToService": "scheduler.amazonaws.com"

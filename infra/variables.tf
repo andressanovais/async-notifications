@@ -27,7 +27,7 @@ variable "elasticache_host" {
 }
 
 variable "elasticache_port" {
-  type = string
+  type    = string
   default = 7236
 }
 

@@ -2,6 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "LogManagement",
             "Action": [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
@@ -19,18 +20,6 @@
             ],
             "Resource": "*",
             "Effect": "Allow"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:GetResourcePolicy",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecretVersionIds"
-            ],
-            "Resource": [
-                "arn:aws:secretsmanager:sa-east-1:*:secret:async-notifications/redis-password"
-            ]
         }
     ]
 }
