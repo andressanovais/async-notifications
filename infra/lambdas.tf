@@ -1,7 +1,7 @@
 module "lambda_connection_storage" {
   source = "./lambda_module"
 
-  lambda_name            = "connection-storage"
+  lambda_name            = "connection_storage"
   policy_path            = "./iam_policies/policy_connection_storage.json"
   lambda_base_policy_arn = aws_iam_policy.lambda_base_policy.arn
   lambda_layer_arn       = aws_lambda_layer_version.lambda_layer.arn
@@ -19,7 +19,7 @@ module "lambda_connection_storage" {
 module "lambda_notification_eligibility" {
   source = "./lambda_module"
 
-  lambda_name            = "notification-eligibility"
+  lambda_name            = "notification_eligibility"
   policy_path            = "./iam_policies/policy_notification_eligibility.json"
   lambda_base_policy_arn = aws_iam_policy.lambda_base_policy.arn
   lambda_layer_arn       = aws_lambda_layer_version.lambda_layer.arn
@@ -37,7 +37,7 @@ module "lambda_notification_eligibility" {
 module "lambda_send_notifications" {
   source = "./lambda_module"
 
-  lambda_name            = "send-notifications"
+  lambda_name            = "send_notifications"
   policy_path            = "./iam_policies/policy_send_notifications.json"
   lambda_base_policy_arn = aws_iam_policy.lambda_base_policy.arn
   lambda_layer_arn       = aws_lambda_layer_version.lambda_layer.arn

@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "user_terms_table" {
-  name           = "user-terms"
+  name           = var.dynamo_table_name
   billing_mode   = "PROVISIONED"
   read_capacity  = var.dynamo_rcu
   write_capacity = var.dynamo_wcu

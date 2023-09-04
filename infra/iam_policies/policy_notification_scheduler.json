@@ -7,7 +7,7 @@
                 "lambda:InvokeFunction",
                 "lambda:InvokeAsync"
             ],
-            "Resource": "arn:aws:lambda:sa-east-1:*:function:send-notifications"
+            "Resource": "arn:aws:lambda:sa-east-1:*:function:send_notifications"
         }
     ]
 }
