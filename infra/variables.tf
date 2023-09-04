@@ -34,3 +34,8 @@ variable "elasticache_port" {
 variable "elasticache_secret_name" {
   type = string
 }
+
+variable "name_lambda_layer" {
+  type    = string
+  default = "lambda-utils"
+}

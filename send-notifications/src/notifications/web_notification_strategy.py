@@ -3,6 +3,7 @@ import os
 import boto3
 from secrets_manager import get_secret
 from repository.redis_repository import RedisRepository
+from repository.redis_keys import get_user_key
 
 
 class WebNotificationStrategy:
@@ -15,7 +16,7 @@ class WebNotificationStrategy:
         )
     
     def send_notification(self):
-        key = f"user:{self.event['user_id']}:connection"
+        key = get_user_key(self.event['user_id'])
         connection_id = self.repository.get(key)
 
         client = boto3.client(

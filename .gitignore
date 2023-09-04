@@ -154,5 +154,6 @@ cython_debug/
 # Terraform
 */.terraform/*
 .terraform.lock.hcl
+*.tfstate*
 
-lambda_zip/
+*.zip

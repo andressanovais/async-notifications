@@ -29,3 +29,7 @@ variable "environment_variables" {
   type        = map(string)
   description = "A map that defines environment variables for the Lambda Function."
 }
+
+variable "lambda_layer_arn" {
+  type = string
+}

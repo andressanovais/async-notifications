@@ -12,6 +12,7 @@ resource "aws_lambda_function" "function" {
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
   role             = aws_iam_role.lambda_role.arn
   runtime          = var.lambda_runtime
+  layers           = [var.lambda_layer_arn]
 
   vpc_config {
     subnet_ids         = var.subnet_ids
@@ -23,8 +24,7 @@ resource "aws_lambda_function" "function" {
   }
 
   depends_on = [
-    aws_cloudwatch_log_group.log_group,
-    aws_iam_role_policy_attachment.lambda_role_policy
+    aws_cloudwatch_log_group.log_group
   ]
 }
 
@@ -34,7 +34,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.lambda_name}-role"
+  name               = "${var.lambda_name}-role"
   assume_role_policy = file("./iam_policies/lambda_assume_role.json")
 }
 
