@@ -1,5 +1,5 @@
 import boto3
-from elegibility_verifier import ElegibilityVerifier
+from eligibility_verifier import EligibilityVerifier
 from repository.dynamodb_repository import DynamodbRepository
 
 repository = DynamodbRepository()
@@ -7,7 +7,7 @@ scheduler_client = boto3.client('scheduler')
 
 
 def handler(event):
-    verifier = ElegibilityVerifier(
+    verifier = EligibilityVerifier(
         repository,
         scheduler_client,
     )

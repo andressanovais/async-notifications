@@ -1,0 +1,4 @@
+[run]
+omit =
+    */connection_setter_strategy.py
+    *abstract*
