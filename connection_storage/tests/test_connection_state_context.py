@@ -1,51 +1,46 @@
 import pytest
 
-from connection_storage.src.connection_state_context import ConnectionStateContext
+from unittest.mock import patch, MagicMock
+from connection_storage.src import connection_state_context as context
 
 path = 'connection_storage.src.connection_state_context'
+connection_key = 'connection:123:user'
+connection = {
+    'id': '123',
+    'key': connection_key,
+}
 
 
-def test_send_user_strategy(mocker):
-    connection = get_mocked_connection(mocker)
-    event = create_mock_event('sendUserId', connection)
+@patch(f'{path}.connection_state_strategies.ConnectionStorageStrategy')
+@patch(f'{path}.get_connection_key', MagicMock(return_value=connection_key))
+def test_send_user_strategy(connection_storage_mock):
+    event = create_fake_event('sendUserId')
 
-    connection_storage_mock = mocker.patch(f'{path}.connection_state_strategies.ConnectionStorageStrategy')
-    ConnectionStateContext(None).set_connection_state(event)
-
-    set_connection_state_mock = connection_storage_mock.return_value.set_connection_state
-    set_connection_state_mock.assert_called_once_with(connection)
-
-
-def test_disconnect_strategy(mocker):
-    connection = get_mocked_connection(mocker)
-    event = create_mock_event('$disconnect', connection)
-
-    connection_storage_mock = mocker.patch(f'{path}.connection_state_strategies.ConnectionRemovalStrategy')
-    ConnectionStateContext(None).set_connection_state(event)
+    context.ConnectionStateContext(None).set_connection_state(event)
 
     set_connection_state_mock = connection_storage_mock.return_value.set_connection_state
     set_connection_state_mock.assert_called_once_with(connection)
 
 
-def test_nonexistent_strategy(mocker):
-    connection = get_mocked_connection(mocker)
-    event = create_mock_event('routeNonexistent', connection)
+@patch(f'{path}.connection_state_strategies.ConnectionRemovalStrategy')
+@patch(f'{path}.get_connection_key', MagicMock(return_value=connection_key))
+def test_disconnect_strategy(connection_removal_mock):
+    event = create_fake_event('$disconnect')
+
+    context.ConnectionStateContext(None).set_connection_state(event)
+
+    set_connection_state_mock = connection_removal_mock.return_value.set_connection_state
+    set_connection_state_mock.assert_called_once_with(connection)
+
+
+def test_nonexistent_strategy():
+    event = create_fake_event('routeNonexistent')
 
     with pytest.raises(KeyError):
-        ConnectionStateContext(None).set_connection_state(event)
+        context.ConnectionStateContext(None).set_connection_state(event)
 
 
-def get_mocked_connection(mocker) -> dict:
-    connection_key = 'connection:123:user'
-    mocker.patch(f'{path}.get_connection_key', return_value=connection_key)
-
-    return {
-        'id': '123',
-        'key': connection_key,
-    }
-
-
-def create_mock_event(route_key: str, connection: dict) -> dict:
+def create_fake_event(route_key: str) -> dict:
     return {
         'requestContext': {
             'routeKey': route_key,
