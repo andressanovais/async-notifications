@@ -4,7 +4,7 @@ from connection_setters.connection_storage_strategy import \
     ConnectionStorageStrategy
 
 
-def get_connection_storage_strategies() -> dict:
+def get_connection_state_strategies() -> dict:
     return {
         'sendUserId': ConnectionStorageStrategy,
         '$disconnect':  ConnectionRemovalStrategy

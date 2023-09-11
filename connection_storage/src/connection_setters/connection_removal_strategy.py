@@ -1,4 +1,5 @@
-from connection_setter_strategy import ConnectionSetterStrategy
+from connection_setters.connection_setter_strategy import \
+    ConnectionSetterStrategy
 from repository.redis_keys import get_user_key
 from repository.redis_repository import RedisRepository
 
